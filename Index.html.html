@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOLB — Top 10 Books of All Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;1,9..144,200;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1c20;
+    --bg: #f0ede6;
+    --card: #faf8f4;
+    --navy: #1e2d40;
+    --navy-mid: #2d4160;
+    --accent: #c8a96e;
+    --accent-light: #e8d9b8;
+    --muted: #7a7a7a;
+    --border: #d4cfc5;
+    --mark: #d4623a;
+    --john: #4a7c8a;
+    --greg: #6b7c4a;
+    --ian: #7a4a7c;
+    --overlap: #c8a96e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 56px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border: 1px solid rgba(200,169,110,0.15);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 200px; height: 200px;
+    border: 1px solid rgba(200,169,110,0.1);
+    border-radius: 50%;
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 200;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: white;
+    margin-bottom: 10px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .header-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em;
+    margin-top: 16px;
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-style: italic;
+  }
+  .header-stat-strip {
+    display: flex;
+    gap: 36px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .hstat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .hstat-n {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 200;
+    color: white;
+    line-height: 1;
+  }
+  .hstat-l {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* NAV */
+  nav {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(200,169,110,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 16px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .nav-btn:hover { color: rgba(255,255,255,0.75); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION HEADINGS */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+  .section-intro { color: var(--muted); font-size: 13px; margin-bottom: 32px; line-height: 1.6; }
+
+  /* OVERLAP CALLOUT */
+  .overlap-section { margin-bottom: 52px; }
+  .overlap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .overlap-card {
+    background: var(--navy);
+    border-radius: 8px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .overlap-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+  }
+  .overlap-card-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14px;
+    color: white;
+    line-height: 1.3;
+  }
+  .overlap-card-author {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .overlap-card-pickers {
+    display: flex;
+    gap: 5px;
+    margin-top: 6px;
+  }
+  .picker-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: white;
+  }
+  .dot-Mark { background: var(--mark); }
+  .dot-John { background: var(--john); }
+  .dot-Greg { background: var(--greg); }
+  .dot-Ian { background: var(--ian); }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 52px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .stat-card-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .bar-list { display: flex; flex-direction: column; gap: 8px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bar-label {
+    font-size: 11px;
+    color: var(--ink);
+    min-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-track {
+    flex: 1;
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--navy-mid);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .bar-count {
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 20px;
+    text-align: right;
+  }
+
+  /* DONUT */
+  .donut-wrap { display: flex; align-items: center; gap: 20px; }
+  .donut-legend { display: flex; flex-direction: column; gap: 8px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* INDIVIDUAL LISTS */
+  .person-section { margin-bottom: 56px; }
+  .person-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .person-name {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 200;
+    color: var(--navy);
+  }
+  .person-count {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .person-accent {
+    width: 28px; height: 3px; border-radius: 2px; margin-bottom: 4px;
+  }
+  .accent-Mark { background: var(--mark); }
+  .accent-John { background: var(--john); }
+  .accent-Greg { background: var(--greg); }
+  .accent-Ian { background: var(--ian); }
+
+  .book-list { display: flex; flex-direction: column; gap: 0; }
+  .book-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .book-row:last-child { border-bottom: none; }
+  .book-row:hover { background: rgba(200,169,110,0.05); margin: 0 -12px; padding: 13px 12px; border-radius: 6px; }
+  .book-num {
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 20px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .book-info { flex: 1; min-width: 0; }
+  .book-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .book-author {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+  }
+  .book-meta { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .meta-pill {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--accent-light);
+    color: var(--navy-mid);
+  }
+  .shared-badge {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--accent);
+    color: white;
+  }
+  .year-pill {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* People grid */
+  .people-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 52px;
+  }
+  @media (max-width: 700px) {
+    .people-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 36px; }
+    .header-stat-strip { gap: 20px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .overlap-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>The <em>FOLB</em><br>Top Tens</h1>
+    <div class="header-sub">A pulchritudinous bookshelf</div>
+    <div class="header-stat-strip">
+      <div class="hstat"><span class="hstat-n">40</span><span class="hstat-l">Books</span></div>
+      <div class="hstat"><span class="hstat-n">5</span><span class="hstat-l">Shared titles</span></div>
+      <div class="hstat"><span class="hstat-n">9</span><span class="hstat-l">Nationalities</span></div>
+      <div class="hstat"><span class="hstat-n">1861–2023</span><span class="hstat-l">Publication span</span></div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showTab('overview')">Overview</button>
+    <button class="nav-btn" onclick="showTab('lists')">Individual Lists</button>
+    <button class="nav-btn" onclick="showTab('all')">All Books</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- OVERVIEW TAB -->
+<div id="tab-overview" class="tab-panel active">
+
+  <div class="overlap-section">
+    <div class="section-label">Shared titles</div>
+    <h2>FOLB Handfuls</h2>
+    <p class="section-intro">Five books appear on more than one list. Six authors chosen by more than one of us.</p>
+
+    <div class="overlap-grid" id="overlap-grid"></div>
+
+    <div class="section-label" style="margin-top: 12px;">Authors chosen by multiple friends</div>
+    <div class="overlap-grid" id="author-overlap-grid"></div>
+  </div>
+
+  <div class="section-label">Collective snapshot</div>
+  <h2>Our 40 books in numbers</h2>
+  <p class="section-intro">Across all four lists combined.</p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-title">Author gender</div>
+      <div class="donut-wrap">
+        <svg id="gender-donut" width="80" height="80" viewBox="0 0 80 80"></svg>
+        <div class="donut-legend" id="gender-legend"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Nationality</div>
+      <div class="bar-list" id="nat-bars"></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Original language</div>
+      <div class="bar-list" id="lang-bars"></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Decade published</div>
+      <div class="bar-list" id="decade-bars"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INDIVIDUAL LISTS TAB -->
+<div id="tab-lists" class="tab-panel">
+  <div class="section-label">Four lists</div>
+  <h2>Top 10s</h2>
+  <p class="section-intro">Each friend's all-time top ten books, in the order listed. Books shared with another friend are highlighted.</p>
+  <div class="people-grid" id="people-grid"></div>
+</div>
+
+<!-- ALL BOOKS TAB -->
+<div id="tab-all" class="tab-panel">
+  <div class="section-label">Complete list</div>
+  <h2>All 40 books</h2>
+  <p class="section-intro">Every book across all four lists, sorted alphabetically. Colour dots show who picked each title.</p>
+  <div id="all-books-list" class="book-list" style="margin-top:24px"></div>
+</div>
+
+</main>
+
+<script>
+const BOOKS = {"Mark": [{"title": "Apeirogon", "author": "Colum McCann", "nationality": "Irish", "gender": "M", "lang": "English", "pub_year": 2020}, {"title": "Love in the Time of Cholera", "author": "Gabriel Garcia Marquez", "nationality": "Colombian", "gender": "M", "lang": "Spanish", "pub_year": 1985}, {"title": "Nobody's Fool", "author": "Richard Russo", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1993}, {"title": "A Feast of Snakes", "author": "Harry Crews", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1976}, {"title": "Rodham", "author": "Curtis Sittenfeld", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 2020}, {"title": "Geek Love", "author": "Katherine Dunn", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 1989}, {"title": "Asterios Polyp", "author": "David Mazzucchelli", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2009}, {"title": "The Amazing Adventures of Kavalier & Clay", "author": "Michael Chabon", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2000}, {"title": "To Kill A Mockingbird", "author": "Harper Lee", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 1960}, {"title": "The Da Vinci Code", "author": "Dan Brown", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2003}], "John": [{"title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1925}, {"title": "1984", "author": "George Orwell", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1949}, {"title": "The Prime Of Miss Jean Brodie", "author": "Muriel Spark", "nationality": "British", "gender": "F", "lang": "English", "pub_year": 1961}, {"title": "The Big Sleep", "author": "Raymond Chandler", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1939}, {"title": "The Sign Of Four", "author": "Arthur Conan Doyle", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1890}, {"title": "Bonfire Of The Vanities", "author": "Tom Wolfe", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1987}, {"title": "Money", "author": "Martin Amis", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1984}, {"title": "Mayflies", "author": "Andrew O'Hagan", "nationality": "Scottish", "gender": "M", "lang": "English", "pub_year": 2020}, {"title": "The Glass Room", "author": "Simon Mawer", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 2009}, {"title": "Fleishman Is In Trouble", "author": "Taffy Brodesser-Akner", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 2019}], "Greg": [{"title": "A Visit From The Goon Squad", "author": "Jennifer Egan", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 2010}, {"title": "The Rings Of Saturn", "author": "W.G. Sebald", "nationality": "German", "gender": "M", "lang": "German", "pub_year": 1995}, {"title": "The Amazing Adventures of Kavalier & Clay", "author": "Michael Chabon", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2000}, {"title": "The Corrections", "author": "Jonathan Franzen", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2001}, {"title": "Great Expectations", "author": "Charles Dickens", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1861}, {"title": "Apeirogon", "author": "Colum McCann", "nationality": "Irish", "gender": "M", "lang": "English", "pub_year": 2020}, {"title": "Olive Kitteridge", "author": "Elizabeth Strout", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 2008}, {"title": "The Bee Sting", "author": "Paul Murray", "nationality": "Irish", "gender": "M", "lang": "English", "pub_year": 2023}, {"title": "One Hundred Years Of Solitude", "author": "Gabriel Garcia Marquez", "nationality": "Colombian", "gender": "M", "lang": "Spanish", "pub_year": 1967}, {"title": "Anna Karenina", "author": "Leo Tolstoy", "nationality": "Russian", "gender": "M", "lang": "Russian", "pub_year": 1878}], "Ian": [{"title": "Lord Of The Flies", "author": "William Golding", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1954}, {"title": "To Kill A Mockingbird", "author": "Harper Lee", "nationality": "American", "gender": "F", "lang": "English", "pub_year": 1960}, {"title": "Stoner", "author": "John Williams", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1965}, {"title": "A Confederacy Of Dunces", "author": "John Kennedy Toole", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1980}, {"title": "Lonesome Dove", "author": "Larry McMurtry", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 1985}, {"title": "High Fidelity", "author": "Nick Hornby", "nationality": "British", "gender": "M", "lang": "English", "pub_year": 1995}, {"title": "The Kite Runner", "author": "Khaled Hosseini", "nationality": "Afghan-American", "gender": "M", "lang": "English", "pub_year": 2003}, {"title": "Mayflies", "author": "Andrew O'Hagan", "nationality": "Scottish", "gender": "M", "lang": "English", "pub_year": 2020}, {"title": "The Lincoln Highway", "author": "Amor Towles", "nationality": "American", "gender": "M", "lang": "English", "pub_year": 2021}, {"title": "The Bee Sting", "author": "Paul Murray", "nationality": "Irish", "gender": "M", "lang": "English", "pub_year": 2023}]};
+const OVERLAP_TITLES = {"Apeirogon": 2, "The Amazing Adventures of Kavalier & Clay": 2, "To Kill A Mockingbird": 2, "Mayflies": 2, "The Bee Sting": 2};
+const OVERLAP_AUTHORS = {"Colum McCann": 2, "Gabriel Garcia Marquez": 2, "Michael Chabon": 2, "Harper Lee": 2, "Andrew O'Hagan": 2, "Paul Murray": 2};
+const GENDER = {"M": 32, "F": 8};
+const NATIONALITY = {"Irish": 4, "Colombian": 2, "American": 21, "British": 8, "Scottish": 2, "German": 1, "Russian": 1, "Afghan-American": 1};
+const LANG = {"English": 36, "Spanish": 2, "German": 1, "Russian": 1};
+const DECADES = {"1860s": 1, "1870s": 1, "1890s": 1, "1920s": 1, "1930s": 1, "1940s": 1, "1950s": 1, "1960s": 5, "1970s": 1, "1980s": 6, "1990s": 3, "2000s": 8, "2010s": 2, "2020s": 8};
+
+// ---- NAV ----
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ---- OVERLAP TITLES ----
+const overlapBookDetails = {};
+Object.values(BOOKS).forEach(list => list.forEach(b => {
+  if (!overlapBookDetails[b.title]) overlapBookDetails[b.title] = {...b, pickers: []};
+  // pickers added below
+}));
+Object.entries(BOOKS).forEach(([person, list]) => {
+  list.forEach(b => {
+    if (overlapBookDetails[b.title] && !overlapBookDetails[b.title].pickers) overlapBookDetails[b.title].pickers = [];
+    if (OVERLAP_TITLES[b.title]) {
+      if (!overlapBookDetails[b.title].pickers.includes(person)) overlapBookDetails[b.title].pickers.push(person);
+    }
+  });
+});
+
+const og = document.getElementById('overlap-grid');
+Object.entries(OVERLAP_TITLES).forEach(([title, count]) => {
+  const det = overlapBookDetails[title];
+  const card = document.createElement('div');
+  card.className = 'overlap-card';
+  const dots = (det.pickers || []).map(p => `<div class="picker-dot dot-${p}" title="${p}">${p[0]}</div>`).join('');
+  card.innerHTML = `
+    <div class="overlap-card-title">${title}</div>
+    <div class="overlap-card-author">${det.author}</div>
+    <div class="overlap-card-pickers">${dots}</div>
+  `;
+  og.appendChild(card);
+});
+
+// ---- OVERLAP AUTHORS ----
+const authorBookMap = {};
+Object.entries(BOOKS).forEach(([person, list]) => {
+  list.forEach(b => {
+    if (!authorBookMap[b.author]) authorBookMap[b.author] = {books: [], pickers: []};
+    if (!authorBookMap[b.author].pickers.includes(person)) authorBookMap[b.author].pickers.push(person);
+    // unique titles
+    if (!authorBookMap[b.author].books.includes(b.title)) authorBookMap[b.author].books.push(b.title);
+  });
+});
+
+const aog = document.getElementById('author-overlap-grid');
+Object.entries(OVERLAP_AUTHORS).forEach(([author, count]) => {
+  const det = authorBookMap[author];
+  const card = document.createElement('div');
+  card.className = 'overlap-card';
+  const dots = (det.pickers || []).map(p => `<div class="picker-dot dot-${p}" title="${p}">${p[0]}</div>`).join('');
+  const bookList = det.books.map(t => `<div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:3px">${t}</div>`).join('');
+  card.innerHTML = `
+    <div class="overlap-card-author" style="font-size:13px;color:var(--accent)">${author}</div>
+    ${bookList}
+    <div class="overlap-card-pickers" style="margin-top:8px">${dots}</div>
+  `;
+  aog.appendChild(card);
+});
+
+// ---- DONUT ----
+function buildDonut(svgId, data, colors) {
+  const svg = document.getElementById(svgId);
+  const total = Object.values(data).reduce((a, b) => a + b, 0);
+  let angle = -Math.PI / 2;
+  const cx = 40, cy = 40, r = 30, gap = 0.03;
+  Object.entries(data).forEach(([label, val], i) => {
+    const sweep = (val / total) * Math.PI * 2 - gap;
+    const x1 = cx + r * Math.cos(angle);
+    const y1 = cy + r * Math.sin(angle);
+    const x2 = cx + r * Math.cos(angle + sweep);
+    const y2 = cy + r * Math.sin(angle + sweep);
+    const large = sweep > Math.PI ? 1 : 0;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`);
+    path.setAttribute('fill', colors[i % colors.length]);
+    svg.appendChild(path);
+    angle += sweep + gap;
+  });
+  // inner white circle for donut
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', 16);
+  circle.setAttribute('fill', '#faf8f4');
+  svg.appendChild(circle);
+}
+
+const genderColors = ['#1e2d40', '#c8a96e'];
+const genderLabels = {'M': 'Men', 'F': 'Women'};
+buildDonut('gender-donut', GENDER, genderColors);
+const gl = document.getElementById('gender-legend');
+Object.entries(GENDER).forEach(([k, v], i) => {
+  gl.innerHTML += `<div class="legend-row"><div class="legend-dot" style="background:${genderColors[i]}"></div><span>${genderLabels[k] || k} &mdash; ${v}</span></div>`;
+});
+
+// ---- BARS ----
+function buildBars(elId, obj, maxVal) {
+  const el = document.getElementById(elId);
+  const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
+  const max = maxVal || sorted[0][1];
+  sorted.forEach(([label, val]) => {
+    el.innerHTML += `<div class="bar-row">
+      <span class="bar-label">${label}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${(val/max)*100}%"></div></div>
+      <span class="bar-count">${val}</span>
+    </div>`;
+  });
+}
+
+buildBars('nat-bars', NATIONALITY);
+buildBars('lang-bars', LANG);
+buildBars('decade-bars', DECADES);
+
+// ---- INDIVIDUAL LISTS ----
+const pg = document.getElementById('people-grid');
+Object.entries(BOOKS).forEach(([person, books]) => {
+  const sec = document.createElement('div');
+  sec.className = 'person-section';
+  const rows = books.map((b, i) => {
+    const shared = OVERLAP_TITLES[b.title] ? '<span class="shared-badge">shared</span>' : '';
+    const nat = b.nationality ? `<span class="meta-pill">${b.nationality}</span>` : '';
+    const yr = b.pub_year ? `<span class="year-pill">${b.pub_year}</span>` : '';
+    return `<div class="book-row">
+      <span class="book-num">${i+1}</span>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.author}</div>
+      </div>
+      <div class="book-meta">${yr}${nat}${shared}</div>
+    </div>`;
+  }).join('');
+  sec.innerHTML = `
+    <div class="person-header">
+      <div>
+        <div class="person-accent accent-${person}"></div>
+        <div class="person-name">${person}</div>
+      </div>
+      <span class="person-count">Top 10</span>
+    </div>
+    <div class="book-list">${rows}</div>
+  `;
+  pg.appendChild(sec);
+});
+// ---- ALL BOOKS ----
+const allBooksMap = {};
+Object.entries(BOOKS).forEach(([person, list]) => {
+  list.forEach(b => {
+    if (!allBooksMap[b.title]) allBooksMap[b.title] = {...b, pickers: []};
+    allBooksMap[b.title].pickers.push(person);
+  });
+});
+const allSorted = Object.values(allBooksMap).sort((a, b) => a.title.localeCompare(b.title));
+const abl = document.getElementById('all-books-list');
+allSorted.forEach(b => {
+  const dots = b.pickers.map(p => `<div class="picker-dot dot-${p}" title="${p}" style="width:20px;height:20px;font-size:8px">${p[0]}</div>`).join('');
+  const shared = b.pickers.length > 1 ? '<span class="shared-badge">shared</span>' : '';
+  const nat = b.nationality ? `<span class="meta-pill">${b.nationality}</span>` : '';
+  const yr = b.pub_year ? `<span class="year-pill">${b.pub_year}</span>` : '';
+  abl.innerHTML += `<div class="book-row">
+    <div class="book-info">
+      <div class="book-title">${b.title}</div>
+      <div class="book-author">${b.author}</div>
+    </div>
+    <div class="book-meta" style="gap:8px">${yr}${nat}${shared}<div style="display:flex;gap:3px">${dots}</div></div>
+  </div>`;
+});
+</script>
+</body>
+</html>
